@@ -35,4 +35,9 @@ SET_TARGET_PROPERTIES(tsan_ex PROPERTIES
 )
 
 ADD_EXECUTABLE(tests testing/tests.cpp testing/driver.cpp)
-TARGET_LINK_LIBRARIES(tests gtest pthread)
+TARGET_LINK_LIBRARIES(tests gmock gtest pthread)
+ADD_EXECUTABLE(mock testing/mock.cpp testing/driver.cpp)
+TARGET_LINK_LIBRARIES(mock gmock gtest pthread)
+
+ADD_EXECUTABLE(bench misc/bench.cpp)
+TARGET_LINK_LIBRARIES(bench folly follybenchmark glog)
