@@ -15,7 +15,6 @@ ADD_EXECUTABLE(variant misc/variant.cpp)
 
 ADD_EXECUTABLE(asan_bad tooling/asan.cpp)
 ADD_EXECUTABLE(asan_ex tooling/asan.cpp)
-TARGET_LINK_LIBRARIES(asan_ex asan)
 SET_TARGET_PROPERTIES(asan_ex PROPERTIES
   COMPILE_FLAGS "-fsanitize=address"
   LINK_FLAGS "-fsanitize=address"
@@ -28,7 +27,7 @@ ADD_EXECUTABLE(tsan_bad tooling/tsan.cpp)
 TARGET_LINK_LIBRARIES(tsan_bad pthread)
 
 ADD_EXECUTABLE(tsan_ex tooling/tsan.cpp)
-TARGET_LINK_LIBRARIES(tsan_ex pthread tsan)
+TARGET_LINK_LIBRARIES(tsan_ex pthread)
 SET_TARGET_PROPERTIES(tsan_ex PROPERTIES
   COMPILE_FLAGS "-fsanitize=thread"
   LINK_FLAGS "-fsanitize=thread"
