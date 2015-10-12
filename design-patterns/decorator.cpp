@@ -1,13 +1,13 @@
 #include <iostream>
 #include <memory>
 
-class Downloader {
+class IDownloader {
  public:
-    virtual ~Downloader() {}
+    virtual ~IDownloader() {}
     virtual void download() = 0;
 };
 
-class SimpleDownloader : public Downloader {
+class SimpleDownloader : public IDownloader {
  public:
     void download() {
        std::cout << "Downloading ..." << std::endl;
@@ -15,9 +15,9 @@ class SimpleDownloader : public Downloader {
 
 };
 
-class LoggingDownloader : public Downloader {
+class LoggingDownloader : public IDownloader {
  public:
-    LoggingDownloader(std::unique_ptr<Downloader> downloader) {
+    LoggingDownloader(std::unique_ptr<IDownloader> downloader) {
         downloader_ = std::move(downloader);
     }
 
@@ -27,15 +27,15 @@ class LoggingDownloader : public Downloader {
         std::cout << "end log" << std::endl;
     }
  private:
-    std::unique_ptr<Downloader> downloader_;
+    std::unique_ptr<IDownloader> downloader_;
 };
 
 int main () {
     auto simpleDownloader(
-        std::unique_ptr<Downloader>(std::make_unique<SimpleDownloader>()));
-    auto twiceDownloader(std::unique_ptr<Downloader>(
+        std::unique_ptr<IDownloader>(std::make_unique<SimpleDownloader>()));
+    auto twiceDownloader(std::unique_ptr<IDownloader>(
         std::make_unique<LoggingDownloader>(
-            std::unique_ptr<Downloader>(std::make_unique<SimpleDownloader>())
+            std::unique_ptr<IDownloader>(std::make_unique<SimpleDownloader>())
     )));
 
     simpleDownloader->download();

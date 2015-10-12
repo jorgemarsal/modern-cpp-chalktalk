@@ -1,14 +1,21 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include <boost/any.hpp>
 #include <boost/range/irange.hpp>
 
 using GenericMap = std::unordered_map<std::string, boost::any>;
 
-class EventLogger {
+class INotifiable {
  public:
-    void onLineConsumed(const GenericMap& data) const {
+    virtual ~INotifiable() {}
+    virtual void onEvent(const GenericMap& data) const = 0;
+};
+
+class EventLogger : public INotifiable {
+ public:
+    void onEvent(const GenericMap& data) const {
         const std::string& text = boost::any_cast<std::string>(data.at("text"));
         std::cout << text << std::endl;
     }
@@ -16,7 +23,7 @@ class EventLogger {
 
 class Reader {
  public:
-    void addEventLogger(const EventLogger& eventLogger) {
+    void addObserver(const EventLogger& eventLogger) {
         eventLoggers_.push_back(eventLogger);
     }
     void read() const {
@@ -24,7 +31,7 @@ class Reader {
         map["text"] = std::string("FYI");
         for (auto i : boost::irange(0,1)) {
             for (auto eventLogger : eventLoggers_) {
-                eventLogger.onLineConsumed(map);
+                eventLogger.onEvent(map);
             }
         }
     }
@@ -37,7 +44,7 @@ int main() {
     EventLogger ev1;
     EventLogger ev2;
     Reader r;
-    r.addEventLogger(ev1);
-    r.addEventLogger(ev2);
+    r.addObserver(ev1);
+    r.addObserver(ev2);
     r.read();
 }
