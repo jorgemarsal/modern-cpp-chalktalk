@@ -33,11 +33,11 @@ class LoggingDownloader : public IDownloader {
 int main () {
     auto simpleDownloader(
         std::unique_ptr<IDownloader>(std::make_unique<SimpleDownloader>()));
-    auto twiceDownloader(std::unique_ptr<IDownloader>(
+    auto loggingDownloader(std::unique_ptr<IDownloader>(
         std::make_unique<LoggingDownloader>(
             std::unique_ptr<IDownloader>(std::make_unique<SimpleDownloader>())
     )));
 
     simpleDownloader->download();
-    twiceDownloader->download();
+    loggingDownloader->download();
 }

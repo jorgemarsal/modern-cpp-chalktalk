@@ -9,6 +9,7 @@ ADD_EXECUTABLE(factory design-patterns/factory.cpp)
 ADD_EXECUTABLE(interfaces design-patterns/interfaces.cpp)
 ADD_EXECUTABLE(observer design-patterns/observer.cpp)
 
+ADD_EXECUTABLE(debug misc/debug.cpp)
 ADD_EXECUTABLE(smart misc/smart.cpp)
 ADD_EXECUTABLE(any misc/any.cpp)
 ADD_EXECUTABLE(variant misc/variant.cpp)
@@ -40,3 +41,5 @@ TARGET_LINK_LIBRARIES(mock gmock gtest pthread)
 
 ADD_EXECUTABLE(bench misc/bench.cpp)
 TARGET_LINK_LIBRARIES(bench folly follybenchmark glog)
+
+ADD_EXECUTABLE(tolint linting/tolint.cpp)
